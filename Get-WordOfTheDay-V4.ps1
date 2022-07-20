@@ -22,7 +22,7 @@ function replaceText{
 }
 
 #THE SECRET API KEY
-$apiKey  = "n9xlxzuxfh49f70x4qh3s31d5cse9s11f7yvt9zd7jczt1hn3";
+$apiKey  = "YOUR_API_KEY_HERE";
 
 #BASE URLS
 #$randomWordUrl = "http://api.wordnik.com/v4/words.json/randomWord?api_key=";
