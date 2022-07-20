@@ -1,5 +1,5 @@
 #SET TO LOCAL SVN PATH
-$svnLocalPath = "C:\Users\matthew.tiernan\Documents\Xepta\SVN\";
+$svnLocalPath = "C:\path\to\your\SVN\repo";
 
 #ITERATE THROUGH SUB-FOLDERS
 foreach($line in Get-ChildItem -Path $svnLocalPath){
