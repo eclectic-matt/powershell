@@ -1,0 +1,1 @@
+Unblock-File dir Y:\Work\---IDEAS\*.ps1 | Unblock-File
