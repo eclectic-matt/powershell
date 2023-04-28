@@ -1,93 +1,235 @@
-<# 
-	.SYNOPSIS
-		Generates a TextBlock element for an AdaptiveCard.
-	.DESCRIPTION
-		Takes text (mandatory) and formatting options and
-		returns an object with the required structure
-		for an AdaptiveCard. 
-	.LINK
-		https://adaptivecards.io/explorer/TextBlock.html
-#>
-function New-TextBlock{
+class TextBlock {
 
-	param(
+	#https://adaptivecards.io/explorer/TextBlock.html
 
-		# $text is the text to output (required).
-		[Parameter(Mandatory=$true)] [String]$text,
-		
-		# $color is the font colour (default: default).
-		# Options: default,dark,light,accent,good,warning,attention.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'default')]
-		$color="default",
+	[String] $text
+	[String] $color
+	[String] $fontType
+	[String] $horizontalAlignment
+	[Boolean] $isSubtle
+	[Nullable[Int]] $maxLines
+	[String] $size
+	[String] $weight
+	[Boolean] $wrap
+	[String] $style
+	[Boolean] $separator
+	#THIS IS THE CONTENT
+	hidden [PSCustomObject] $object
 
-		# $fontType is the type of font (default: default).
-		# Options: default,monospace.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'default')]
-		$fontType="default",
-
-		# $horizontalAlignment is the horizontal alignment (default: center).
-		# Options: left,center,right.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'center')]
-		$horizontalAlignment="center",
-
-		# $isSubtle is whether this text should be subtle/faint (default: false).
-		# Options: true,false.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'false')]
-		$isSubtle="false",
-
-		# $maxLines is the maximum number of lines to display (default: false).
-		# Options: number,$null.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = '$null')]
-		$maxLines=$null,
-
-		# $size is the size of the text (default: ExtraLarge).
-		# Options: default,small,medium,large,extraLarge.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'ExtraLarge')]
-		$size="ExtraLarge",
-
-		# $weight is the font weight (default: bolder).
-		# Options: default,lighter,bolder.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'bolder')]
-		$weight="bolder",
-
-		# $wrap is whether to wrap text over lines, otherwise clipped (default: true).
-		# Options: true,false.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'true')]
-		$wrap="true",
-
-		# $style is the block style to apply (default: default).
-		# Options: default,heading.
-		[Parameter(Mandatory=$false)]
-		[PSDefaultValue(Help = 'default')]
-		$style="default"
-	)
-
-	$textblock = [PSCustomObject]@{
-		type = 'TextBlock'
-		text = "$text"
-		color = "$color"
-		fontType = "$fontType"
-		horizontalAlignment = "$horizontalAlignment"
-		isSubtle = "$isSubtle"
-		#maxLines = "$maxLines"
-		size = "$size"
-		weight = "$weight"
-		wrap = "$wrap"
-		style = "$style"
+	#DEFAULT DEFINITION (NO INPUT)
+	TextBlock(){
+		$this.text = "This is the text content"
+		$this.color = "default"
+		$this.fontType = "default"
+		$this.horizontalAlignment = "center"
+		$this.isSubtle = $false
+		$this.maxLines = $null
+		$this.size = "default"
+		$this.weight = "bolder"
+		$this.wrap = $true
+		$this.style = "default"
+		$this.separator = $false
+		#THIS IS THE CONTENT
+		$this.object = $null
 	}
 
-	#ADD OPTIONAL PROPERTIES THAT CAN CAUSE ISSUES IF SUPPLIED AS ""
-	If($maxLines -ne "") {
-		$textblock.maxLines = "$maxLines"
+	#JUST TEXT?
+	TextBlock(
+		$text
+	){
+		$this.text = $text
+		$this.out();
 	}
 
-	return $textblock;
+	TextBlock(
+		[String] $text,
+		[String] $color,
+		[String] $fontType,
+		[String] $horizontalAlignment,
+		[Boolean] $isSubtle,
+		[Nullable[Int]] $maxLines,
+		[String] $size,
+		[String] $weight,
+		[Boolean] $wrap,
+		[String] $style,
+		[Boolean] $separator
+	){
+		#HANDLE INPUTS
+		if($null -eq $text){
+			throw "Cannot make a TextBlock without text!";
+		}else{
+			$this.text = $text;
+		}
+		if($null -eq $color){
+			$this.color = "default";
+		}else{
+			$this.color = $color;
+		}
+		if($null -eq $fontType){
+			$this.fontType = "default";
+		}else{
+			$this.fontType = $fontType;
+		}
+		if($null -eq $horizontalAlignment){
+			$this.horizontalAlignment = "center";
+		}else{
+			$this.horizontalAlignment = $horizontalAlignment;
+		}
+		if($null -eq $isSubtle){
+			$this.isSubtle = $false;
+		}else{
+			$this.isSubtle = $isSubtle;
+		}
+		if($null -eq $maxLines){
+			$this.maxLines = $null;
+		}else{
+			$this.maxLines = $maxLines;
+		}
+		if($null -eq $size){
+			$this.size = "default";
+		}else{
+			$this.size = $size;
+		}
+		if($null -eq $weight){
+			$this.weight = "default";
+		}else{
+			$this.weight = $weight;
+		}
+		if($null -eq $wrap){
+			$this.wrap = $true;
+		}else{
+			$this.wrap = $wrap;
+		}
+		if($null -eq $style){
+			$this.style = "default";
+		}else{
+			$this.style = $style;
+		}
+		if($null -eq $separator){
+			$this.separator = $false;
+		}else{
+			$this.separator = $separator;
+		}
+
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+
+
+	#==============
+	# SETTERS
+	#==============
+
+	#SET THE TEXT
+	[void] setText(
+		$text
+	){
+		$this.text = $text;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE COLOUR
+	[void] setColor(
+		$color
+	){
+		$this.color = $color;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE FONT TYPE
+	[void] setFontType (
+		$fontType
+	){
+		$this.fontType = $fontType;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE SIZE
+	[void] setSize (
+		$size
+	){
+		$this.size = $size;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE WEIGHT
+	[void] setWeight (
+		$weight
+	){
+		$this.weight = $weight;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE HORIZONTAL ALIGNMENT
+	[void] setHorizontalAlignment (
+		$horizontalAlignment
+	){
+		$this.horizontalAlignment = $horizontalAlignment;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE isSubtle FLAG
+	[void] setIsSubtle (
+		$isSubtle
+	){
+		$this.isSubtle = $isSubtle;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE MAX LINES
+	[void] setMaxLines (
+		$maxLines
+	){
+		$this.maxLines = $maxLines;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE WRAP FLAG
+	[void] setWrap (
+		$wrap
+	){
+		$this.wrap = $wrap;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE STYLE
+	[void] setStyle (
+		$style
+	){
+		$this.style = $style;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+	#SET THE SEPARATOR
+	[void] setSeparator (
+		$separator
+	){
+		$this.separator = $separator;
+		#GENERATE THE OUTPUT OBJECT
+		$this.out();
+	}
+
+
+	#==============
+	# OUTPUT
+	#==============
+
+	[PSCustomObject] out(){
+		#GENERATE OBJECT TO STORE
+		$this.object = [PSCustomObject]@{
+			type = 'TextBlock'
+			text = $this.text
+			color = $this.color
+			fontType = $this.fontType
+			horizontalAlignment = $this.horizontalAlignment
+			isSubtle = $this.isSubtle
+			maxLines = $this.maxLines
+			size = $this.size
+			weight = $this.weight
+			wrap = $this.wrap
+			style = $this.style	
+			separator = $this.separator
+		}
+		return $this.object;
+	}
 }
