@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.Synopsis
 	Get the random anime quote and send via webhook
 	
@@ -9,7 +9,7 @@
 	Get-AnimeQuote gets an anime quote via API and posts to Teams.
 
 	.Link
-	https://animechan.vercel.app/docs#random-quote
+	https://katanime.vercel.app/api/getrandom
 #>
 
 #IMPORT THE CLASSES
@@ -17,15 +17,14 @@
 
 
 #BASE URLS
-$wordOfTheDayUrl = "https://animechan.vercel.app/api/random"; 
+#$animeQuoteUrl = "https://animechan.vercel.app/api/random"; #SUSPENDED 2023-05-31
+$animeQuoteUrl = 'https://katanime.vercel.app/api/getrandom';
 
 #CALL THE API TO GET THE JSON
-$json = Invoke-WebRequest $wordOfTheDayUrl;
+$json = Invoke-WebRequest $animeQuoteUrl;
 
 #CHECK THE JSON RETURN (IN CASE API FAILS)
-Write-Output $json.Content;
-#pause;
-#exit 1;
+#Write-Output $json.Content;
 
 #PREPARE A HASHTABLE
 $hashtable = @{}
@@ -33,10 +32,14 @@ $hashtable = @{}
 #CONVERT THE JSON TO A HASHTABLE
 (ConvertFrom-Json $json).psobject.properties | ForEach-Object { $hashtable[$_.Name] = $_.Value }
 
-#THE WORD ITSELF IS THE TOP "word" - NOW CALLING THE REPLACE FUNCTION JUST IN BLOODY CASE
-$quote = $hashtable["quote"];
-$anime = $hashtable["anime"];
-$character = $hashtable["character"];
+#EXTRACT THE RELEVANT DETAILS
+#$quote = $hashtable["quote"];             #OLD VERSION
+#$anime = $hashtable["anime"];             #OLD VERSION
+#$character = $hashtable["character"];     #OLD VERSION
+
+$quote = $hashtable.result[0].english;
+$anime = $hashtable.result[0].anime;
+$character = $hashtable.result[0].character;
 
 #==========================
 # HEADING (WORD OF THE DAY)
@@ -71,11 +74,16 @@ $content = @(
 	$charText.out()
 );
 
-
+#GET ANIME LINK
+$animeLink = "https://en.wikipedia.org/wiki/" + ($anime).replace(" ","_");
+	
+#ADD ACTION.OPENURL
+$action = [ActionOpenUrl]::new($animeLink,"View $anime on Wikipedia");
 
 #PUT THE ARRAY OF CONTENT IN A CONTAINER
 $fullContainer = [Container]::new();
 $fullContainer.setItems($content);
+$fullContainer.setSelectAction($action.out());
 
 #WRAP IN AN ADAPTIVE CARD
 [AdaptiveCard]$card = [AdaptiveCard]::new($fullContainer.out());
