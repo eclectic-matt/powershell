@@ -1,0 +1,67 @@
+﻿{
+    "type":  "message",
+    "attachments":  [
+                        {
+                            "contentType":  "application/vnd.microsoft.card.adaptive",
+                            "contentUrl":  null,
+                            "content":  {
+                                            "type":  "AdaptiveCard",
+                                            "version":  "1.4",
+                                            "msTeams":  {
+                                                            "width":  "full"
+                                                        },
+                                            "speak":  "Spoken output",
+                                            "body":  [
+                                                         {
+                                                             "type":  "TextBlock",
+                                                             "text":  "DnD AI",
+                                                             "color":  "default",
+                                                             "fontType":  "default",
+                                                             "horizontalAlignment":  "center",
+                                                             "isSubtle":  false,
+                                                             "maxLines":  null,
+                                                             "size":  "extraLarge",
+                                                             "weight":  "bolder",
+                                                             "wrap":  true,
+                                                             "style":  "default",
+                                                             "separator":  false
+                                                         },
+                                                         {
+                                                             "type":  "TextBlock",
+                                                             "text":  "A Ranger Human called Oumcherdifeldix whose background is Hermit and knows the language Undercommon and is fighting a medium-sized Lawful evil Lemure",
+                                                             "color":  "default",
+                                                             "fontType":  "default",
+                                                             "horizontalAlignment":  "center",
+                                                             "isSubtle":  false,
+                                                             "maxLines":  null,
+                                                             "size":  "large",
+                                                             "weight":  "bolder",
+                                                             "wrap":  true,
+                                                             "style":  "default",
+                                                             "separator":  false
+                                                         },
+                                                         {
+                                                             "type":  "Container",
+                                                             "items":  [
+                                                                           {
+                                                                               "type":  "Image",
+                                                                               "url":  "https://d14uq1pz7dzsdq.cloudfront.net/90c55a30-08fb-4244-8bfe-8413575da33d_.png?Expires=1743158662&Signature=h4jned9leIymozEfyD5OKqKrIewboKYZkju1KgPVxqsN91GTnEovIzMoYkO3MvprJyn50hzNi1w2ScotxKR44RsZJeG3kNuiJfviOyqyZpFXamuqGw8nvTHsyuxP6k7D0yXULmzgEz9vk6y2GAP4RiTzcPbj-1ErNl93GL9frDmWKFQCsM8VIVe-AbPwG5Cgmj-kLn8~-8ifnIMFlE-RzD6sTXQ9sq2dYq29jo4bwhIDJT6YtXoQwoxlloDhLOP0MACcG~YOf9wcs8k7J7RZ2NaKvCJ5PmbjLTgXjCvbL3P36y~PPku41AN2kPDSaXQEAt~4xHHZWfESvjDNzwNXcA__&Key-Pair-Id=K1F55BTI9AHGIK",
+                                                                               "altText":  "A RANGER HUMAN CALLED OUMCHERDIFELDIX WHOSE BACKGROUND IS HERMIT AND KNOWS THE LANGUAGE UNDERCOMMON AND IS FIGHTING A MEDIUM-SIZED LAWFUL EVIL LEMURE",
+                                                                               "backgroundColor":  "#fff",
+                                                                               "height":  "auto",
+                                                                               "horizontalAlignment":  "center",
+                                                                               "size":  "stretch"
+                                                                           }
+                                                                       ],
+                                                             "selectAction":  {
+                                                                                  "type":  "Action.OpenUrl",
+                                                                                  "url":  "https://d14uq1pz7dzsdq.cloudfront.net/90c55a30-08fb-4244-8bfe-8413575da33d_.png?Expires=1743158662&Signature=h4jned9leIymozEfyD5OKqKrIewboKYZkju1KgPVxqsN91GTnEovIzMoYkO3MvprJyn50hzNi1w2ScotxKR44RsZJeG3kNuiJfviOyqyZpFXamuqGw8nvTHsyuxP6k7D0yXULmzgEz9vk6y2GAP4RiTzcPbj-1ErNl93GL9frDmWKFQCsM8VIVe-AbPwG5Cgmj-kLn8~-8ifnIMFlE-RzD6sTXQ9sq2dYq29jo4bwhIDJT6YtXoQwoxlloDhLOP0MACcG~YOf9wcs8k7J7RZ2NaKvCJ5PmbjLTgXjCvbL3P36y~PPku41AN2kPDSaXQEAt~4xHHZWfESvjDNzwNXcA__&Key-Pair-Id=K1F55BTI9AHGIK",
+                                                                                  "title":  "View this image on EdenAI",
+                                                                                  "iconUrl":  null
+                                                                              }
+                                                         }
+                                                     ]
+                                        }
+                        }
+                    ]
+}

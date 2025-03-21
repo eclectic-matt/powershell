@@ -1,0 +1,175 @@
+﻿{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Table",
+      "firstRowAsHeaders": true,
+      "showGridLines" : false,
+      "columns": [
+        {
+          "width": 1
+        },
+        {
+          "width": 1
+        },
+        {
+          "width": 1
+        },
+        {
+          "width": 1
+        },
+        {
+          "width": 1
+        },
+        {
+          "width": 1
+        }
+      ],
+      "rows": [
+        {
+          "type": "TableRow",
+          "cells": [
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "STR",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "DEX",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "CON",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "INT",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "WIS",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "CHA",
+                  "wrap": true,
+                  "weight": "Bolder"
+                }
+              ]
+            }
+          ],
+          "style": "accent"
+        },
+        {
+          "type": "TableRow",
+          "cells": [
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "15",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "style": "warning",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "16",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "style": "accent",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "11",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "15",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "style": "warning",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "16",
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "TableCell",
+              "style": "accent",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "11",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
