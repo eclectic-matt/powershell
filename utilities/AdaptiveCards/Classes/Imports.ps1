@@ -2,20 +2,31 @@
 # IMPORTS
 #===========
 
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\AdaptiveCard.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Message.ps1
+# GET THE PATH OF THE CURRENT FOLDER
+$importUtilitiesFolder = Split-Path $MyInvocation.MyCommand.Path;
+#$rootFolderPath = Split-Path -Path $scriptDir -Parent -Resolve;
+# GO ONE LEVEL UP AND FIND THE "utilities" FOLDER
+#$utilitiesFolder = Join-Path -Path $scriptDir -ChildPath \AdaptiveCards\Classes
+Write-Host ("IMPORT UTILS FOLDER: " + $importUtilitiesFolder);
 
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Actions\OpenUrl.ps1
+# MAIN CLASSES
+. $importUtilitiesFolder\AdaptiveCard.ps1
+. $importUtilitiesFolder\Message.ps1
 
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\Container.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\Table.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\TableCell.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\TableRow.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\FactSet.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\ImageSet.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\Fact.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\Column.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Containers\ColumnSet.ps1
+# ACTION (CLICK ON THE CONTENT TO LOAD A URL)
+. $importUtilitiesFolder\Actions\OpenUrl.ps1
 
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Elements\TextBlock.ps1
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Elements\Image.ps1
+# CONTAINERS
+. $importUtilitiesFolder\Containers\Container.ps1
+. $importUtilitiesFolder\Containers\Table.ps1
+. $importUtilitiesFolder\Containers\TableCell.ps1
+. $importUtilitiesFolder\Containers\TableRow.ps1
+. $importUtilitiesFolder\Containers\FactSet.ps1
+. $importUtilitiesFolder\Containers\ImageSet.ps1
+. $importUtilitiesFolder\Containers\Fact.ps1
+. $importUtilitiesFolder\Containers\Column.ps1
+. $importUtilitiesFolder\Containers\ColumnSet.ps1
+
+# BASIC ELEMENTS
+. $importUtilitiesFolder\Elements\TextBlock.ps1
+. $importUtilitiesFolder\Elements\Image.ps1
