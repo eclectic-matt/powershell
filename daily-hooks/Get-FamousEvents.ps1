@@ -95,7 +95,7 @@ function Get-NumberOne{
 #==================
 
 #IMPORT THE CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
+#. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
 
 
 #CHANGE THIS FLAG TO GET AI-GENERATED WIKI LINKS
@@ -103,7 +103,7 @@ $includeAIlinks = $false;
 
 
 #GET API KEY FROM SECRET STORE
-$keyFileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\api\apiKeys.json";
+$keyFileName = "$apiKeysFolder\apiKeys.json";
 $keyFile = Get-Content -Path $keyFileName -Raw;
 $keysJSON = ConvertFrom-Json $keyFile;
 $apiKey = $keysJSON.keys.apiNinjas;
@@ -141,7 +141,7 @@ $content = ConvertFrom-Json $json.Content;
 $dayOfWeek = (get-date).DayOfWeek;
 
 #GET TEST FOLDER
-$testFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\";
+$testFolder = "$rootFolderPath\test\";
 #GET WHO IS WORKING FROM HOME TODAY
 $wfhStaff = Invoke-Expression -Command ($testFolder + "Get-WorkingFromHome.ps1");
 
@@ -191,7 +191,9 @@ Foreach($example in $content){
         #GET EDEN AI LINK
         Start-Sleep -Seconds 1; #PREVENT RATE LIMITING
         $question = 'what is the most appropriate wikipedia link for the following historical event?';
-        $wikiLink = ..\utilities\Get-EdenAIAnswer.ps1 -question $question -text $event;
+        #$wikiLink = ..\utilities\Get-EdenAIAnswer.ps1 -question $question -text $event;
+        $wikiLink = "$utilitiesFolder\Get-EdenAIAnswer.ps1 -question $question -text $event";
+        $wikiLink = Invoke-Expression $wikiLink;
         #FORMAT LINK IN MARKDOWN [title](url)
         $wikiAnchor = '[' + $wikiLink + '](' + $wikiLink + ')';
 
@@ -304,13 +306,8 @@ $fullContainer.setItems($content);
 #STRINGIFY THE FINAL MESSAGE - THIS *MUST* USE THE out() METHOD
 $output = $message.out();
 
-#SAVE TO FILE (lastCardOutput.json)
-$output > "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\TeamsCards\lastCardOutput.json";
-
-#OUTPUT TO SCREEN FOR CHECKING
-Write-Output $output;
-#pause;
-#exit 1;
+#SAVE OUTPUT TO FILE
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
 #SEND TO TEAMS
-Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;

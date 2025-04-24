@@ -12,12 +12,6 @@
 	https://www.songsterr.com?pattern=Cool%20Band%20Name
 #>
 
-#IMPORT THE CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
-
-#CLEAR THE SCREEN BETWEEN RUNS?
-Cls;
-
 <#
     SONGSTERR SEARCH AND EXTRACT
 #>
@@ -191,14 +185,7 @@ $fullContainer.setSelectAction($action.out());
 $output = $message.out();
 
 #SAVE TO FILE (lastCardOutput.json)
-$output > "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\TeamsCards\lastCardOutput.json";
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
-#OUTPUT TO SCREEN FOR CHECKING
-Write-Output $output;
-#pause;
-
-#DEBUG - PREVENT TEAMS SEND
-#exit 1;
-
-#SEND TO TEAMS
-Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+#SEND TO TEAMS (General)
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;

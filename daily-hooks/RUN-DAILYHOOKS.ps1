@@ -9,96 +9,100 @@
 	Runs all defined Daily Hooks and sends via Teams.
 #>
 
-#DEFINE SOURCE FOLDER
-$hooksFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\";
+#THIS WORKFLOW ASSUMES YOU HAVE THE FOLLOWING FOLDER STRUCTURE:
+
+# root folder
+# |
+# ├─── daily-hooks
+# |    └─── RUN-DAILYHOOKS.ps1
+# |
+# ├─── utilities
+# |    └─── AdaptiveCards
+# |         └─── Classes
+# |              └─── Imports.ps1
+
+#CLEAR SCREEN BETWEEN RUNS
+Cls;
+
+#REWRITING TO DOT SOURCE ALL THE OTHER SCRIPTS
+#GET THE INVOCATION PATH (e.g. C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\RUN-DAILYHOOKS.ps1)
+$splitPath = Split-Path $MyInvocation.MyCommand.Path;
+#GET THE DIRECTORY FOR THIS FILE (e.g. C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\)
+$hooksFolder = Join-Path -Path $splitPath -ChildPath "";
+#GET THE ROOT (POWERSHELL) FOLDER (e.g. C:\Users\matthew.tiernan\Desktop\POWERSHELL\)
+$rootFolder = Split-Path -Path $splitPath -Parent -Resolve;
+#THEN GET THE CHILD utilities DIRECTORY (e.g. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities)
+$utilitiesFolder = Join-Path -Path $rootFolder -ChildPath "utilities";
+#GET THE API FOLDER IN THE ROOT DIR (e.g. C:\Users\matthew.tiernan\Desktop\POWERSHELL\api)
+$apiKeysFolder = Join-Path -Path $rootFolder -ChildPath "api";
+#GET THE "MY PICTURES" FOLDER (e.g. C:\Users\matthew.tiernan\Pictures)
+$picturesFolder = [Environment]::GetFolderPath("MyPictures");
+#IMPORT THE ADAPTIVE CARDS (ONCE FOR ALL SCRIPTS)
+. "$utilitiesFolder\AdaptiveCards\Classes\Imports.ps1";
+
 
 
 Write-Host "==============================";
 Write-Host "SENDING WORD OF THE DAY";
 Write-Host "==============================";
 #GET WORD OF THE DAY
-Invoke-Expression -Command ($hooksFolder + "Get-WordOfTheDay.ps1");
+. "$hooksFolder\Get-WordOfTheDay.ps1";
 
-<#
-#DROPPED IN FAVOUR OF "DINO ENVIRO" 2023-05-10
-Write-Host "==============================";
-Write-Host "SENDING DINO TOP TRUMPS";
-Write-Host "==============================";
-#GET DINO OF THE DAY
-Invoke-Expression -Command ($hooksFolder + "Get-DinoTopTrumps.ps1");
-#>
-<#
-#DROPPED IN FAVOUR OF "DINO AI" 2023-07-05
-Write-Host "==============================";
-Write-Host "SENDING DINO ENVIRO";
-Write-Host "==============================";
-#GET DINO ENVIRO
-Invoke-Expression -Command ($hooksFolder + "Get-DinoEnviro.ps1");
-#>
+
 Write-Host "==============================";
 Write-Host "SENDING DINO AI";
 Write-Host "==============================";
-#GET DINO AI (OLD TWO-COLUMN LAYOUT)
-#Invoke-Expression -Command ($hooksFolder + "Get-DinoAI.ps1");
 #NEW DINO WITHIN ENVIRO AI GENERATION
-Invoke-Expression -Command ($hooksFolder + "Get-DinoWithinEnviroAI.ps1");
+. "$hooksFolder\Get-DinoWithinEnviroAI.ps1";
 
-#Write-Host "==============================";
-#Write-Host "SENDING DAILY GREEK";
-#Write-Host "==============================";
-##GET DAILY GREEK
-#Invoke-Expression -Command ($hooksFolder + "Get-DailyGreek.ps1");
 
 Write-Host "==============================";
 Write-Host "SENDING FAMOUS EVENTS";
 Write-Host "==============================";
 #GET FAMOUS EVENTS
-Invoke-Expression -Command ($hooksFolder + "Get-FamousEvents.ps1");
+. "$hooksFolder\Get-FamousEvents.ps1";
 
-#Write-Host "==============================";
-#Write-Host "SENDING ANIME QUOTE";
-#Write-Host "==============================";
-##GET ANIME QUOTE
-#Invoke-Expression -Command ($hooksFolder + "Get-AnimeQuote.ps1");
 
 Write-Host "==============================";
 Write-Host "SENDING GUITAR TAB";
 Write-Host "==============================";
-#GET DAILY GUITAR TAB (RANDOM)
-#Invoke-Expression -Command ($hooksFolder + "Get-RandomGuitarTab.ps1");
 #GET DAILY GUITAR TAB (SPECIFIED SEARCH TERMS)
-Invoke-Expression -Command ($hooksFolder + "Get-DecentGuitarTab.ps1");
+. "$hooksFolder\Get-DecentGuitarTab.ps1";
 
-#=====================
-## NEW DAILY SCRIPTS
-#=====================
 
 Write-Host "==============================";
 Write-Host "SENDING HACKER NEWS";
 Write-Host "==============================";
-Invoke-Expression -Command ($hooksFolder + "Get-HackerNews.ps1");
+#GET THE TOP STORIES ON HACKER NEWS
+. "$hooksFolder\Get-HackerNews.ps1"
+
 
 Write-Host "==============================";
 Write-Host "SENDING F1 LIVE NEWS FEED / UPCOMING EVENTS";
 Write-Host "==============================";
-Invoke-Expression -Command ($hooksFolder + "Get-F1NewsAndUpdates.ps1");
+#GET THE LATEST NEWS FROM THE F1 RACEFANS BLOG
+. "$hooksFolder\Get-F1NewsAndUpdates.ps1"
 
-#Write-Host "==============================";
-#Write-Host "SENDING DAILY POKEMON";
-#Write-Host "==============================";
-#I DON'T MUCH LIKE IT - STOPPING FOR NOW...
-#Invoke-Expression -Command ($hooksFolder + "Get-DailyPokemon.ps1");
-
-#Write-Host "==============================";
-#Write-Host "SENDING EUROS UPCOMING";
-#Write-Host "==============================";
-#Invoke-Expression -Command ($hooksFolder + "/Football/Get-UpcomingFixtures.ps1");
 
 Write-Host "==============================";
 Write-Host "SENDING DAILY NIGEL AND MARMALADE";
 Write-Host "==============================";
-Invoke-Expression -Command ($hooksFolder + "Get-DailyNigelAndMarmalade.ps1");
+#GET A RANDOM NIGEL AND MARMALADE VIDEO
+. "$hooksFolder\Get-DailyNigelAndMarmalade.ps1";
 
+
+Write-Host "==============================";
+Write-Host "SENDING RANDOM DnD CHARACTER";
+Write-Host "==============================";
+#GET A RANDOM D&D CHARACTER AND AN AI IMAGE OF THEM
+. "$hooksFolder\Get-RandomDandDCharacter.ps1";
+
+
+Write-Host "==============================";
+Write-Host "SENDING DAILY GNOME";
+Write-Host "==============================";
+#GET A DAILY GNOME IMAGE
+. "$hooksFolder\Get-DailyGnome.ps1";
 
 
 Write-Host "==============================";

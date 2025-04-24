@@ -1,4 +1,4 @@
-<#
+﻿<#
 	.Synopsis
 	Get a random D&D Character and send via webhook
 	
@@ -12,20 +12,14 @@
 	https://dndapi.ashleysheridan.co.uk/
 #>
 
-# IMPORT ADAPTIVE CARD CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
 # IMPORT THE DnD API CLASS
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\DnD\DnD-API.ps1
-
-#TESTING - CLEAR BETWEEN RUNS
-Cls
+. "$utilitiesFolder\DnD\DnD-API.ps1"
 
 #THE KEY FILE LOCATIONS
-$utilitiesFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\";
-$fileArchiveFolder = "C:\Users\matthew.tiernan\Pictures\DnDAI";
+$fileArchiveFolder = "$picturesFolder\DnDAI";
 
 #SETUP AUTH FOR THE API
-$keyFileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\api\apiKeys.json";
+$keyFileName = "$apiKeysFolder\apiKeys.json";
 $keyFile = Get-Content -Path $keyFileName -Raw;
 $keysJSON = ConvertFrom-Json $keyFile;
 $apiEmail = $keysJSON.auth.dndapi.email;
@@ -124,50 +118,7 @@ $output = $message.out();
 $output = $output.Replace("\u0026", "&");
 
 #SAVE TO FILE (lastCardOutput.json)
-$output | Set-Content -Path "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\lastCardOutput.json" -Encoding 'UTF8';
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
-#SEND TO TEAMS
-$response = Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""";# > $silent;
-
-<#
-#CLASSES
-$classesArray = $gateway.getClasses();
-#ITERATE CLASSES
-for($i = 0; $i -lt $classesArray.Count; $i++){
-    Write-Host (" " + $i + " -> " + $classesArray[$i].name);
-}
-#GET A SINGLE CLASS
-$className = "Barbarian";
-$singleClass = $gateway.getClassByName($className);
-Write-Host $singleClass;
-
-#RACES
-$racesArray = $gateway.getRaces();
-#ITERATE RACES
-for($i = 0; $i -lt $racesArray.Count; $i++){
-    Write-Host (" " + $i + " -> " + $racesArray[$i].name);
-}
-#GET A SINGLE RACE
-$raceName = "Elf";
-$singleRace = $gateway.getRaceByName($raceName);
-Write-Host $singleRace;
-
-
-#BACKGROUNDS
-$bgArray = $gateway.getBackgrounds();
-#ITERATE BACKGROUNDS
-for($i = 0; $i -lt $bgArray.Count; $i++){
-    Write-Host (" " + $i + " -> " + $bgArray[$i].name);
-}
-#GET A SINGLE BG
-$bgName = "Noble";
-$singleBg = $gateway.getBackgroundByName($bgName);
-Write-Host $singleBg;
-
-#LANGUAGES
-$langArray = $gateway.getLanguages();
-#ITERATE LANGUAGES
-for($i = 0; $i -lt $langArray.Count; $i++){
-    Write-Host (" " + $i + " -> " + $langArray[$i].name);
-}
-#>
+#SEND TO TEAMS (General)
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;

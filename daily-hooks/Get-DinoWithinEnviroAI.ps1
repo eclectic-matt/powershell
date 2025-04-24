@@ -1,12 +1,26 @@
 ﻿# IMPORT ADAPTIVE CARD CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
-
+#. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
+<#
+#GET THE INVOCATION PATH 
+$splitPath = Split-Path $MyInvocation.MyCommand.Path;
+#GET THE DIRECTORY FOR THIS FILE
+$hooksFolder = Join-Path -Path $splitPath -ChildPath "";
+#GET THE ROOT (POWERSHELL) FOLDER
+$rootFolderPath = Split-Path -Path $splitPath -Parent -Resolve;
+#THEN GET THE CHILD utilities DIRECTORY
+$utilitiesFolder = Join-Path -Path $rootFolderPath -ChildPath "utilities";
+#Write-Host ("UTILITIES PATH: " + $utilitiesFolder);
+#IMPORT THE ADAPTIVE CARDS CLASSES
+. "$utilitiesFolder\AdaptiveCards\Classes\Imports.ps1"
+#>
 #TESTING - CLEAR BETWEEN RUNS
-Cls
+#Cls
 
 #THE KEY FILE LOCATIONS
-$utilitiesFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\";
-$fileArchiveFolder = "C:\Users\matthew.tiernan\Pictures\DinoAI";
+#$utilitiesFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\";
+#$fileArchiveFolder = "C:\Users\matthew.tiernan\Pictures\DinoAI";
+#$fileArchiveFolder = ([Environment]::GetFolderPath("MyPictures") + "\DinoAI");
+$fileArchiveFolder = "$picturesFolder\DinoAI";
 #FORCE CLEAR THE IMAGE VAR? EXTRA IMAGES APPEARING WITHIN CONTENT?
 $image = $null;
 
@@ -126,7 +140,8 @@ function New-DinoTopTrump{
 # DINO
 #===================
 #LOAD JSON
-$fileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\dinoList_LIMITED.json";
+#$fileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\dinoList_LIMITED.json";
+$fileName = "$hooksFolder\data\dinoList_LIMITED.json";
 #LOAD FILE CONTENTS
 $file = Get-Content -Path $fileName;
 #CONVERT TO JSON
@@ -164,7 +179,8 @@ if($null -eq $forceDino){
 # ENVIRO
 #===================
 #GET RECENT ENVIROS LIST
-$recentName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\recentEnviros.json";
+#$recentName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\recentEnviros.json";
+$recentName = "$hooksFolder\data\recentEnviros.json";
 $recentFile = Get-Content -Path $recentName -Raw;
 $recentJSON = ConvertFrom-Json $recentFile;
 $recentArray = $recentJSON.recent;
@@ -174,7 +190,8 @@ $recentList.AddRange($recentArray);
 $recentCount = $recentJSON.recentCount;
 
 #LOAD JSON TO GET RANDOM ENVIRO
-$fileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\enviroList.json";
+#$fileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\enviroList.json";
+$fileName = "$hooksFolder\data\enviroList.json";
 $file = Get-Content -Path $fileName -Raw;
 $json = ConvertFrom-Json $file;
 $enviroList = $json.enviroList;
@@ -223,7 +240,7 @@ $recentHash | ConvertTo-Json -Depth 3 | Out-File $recentName;
 $enviro = $enviroName.replace(" ", "\%20");
 
 #GET A RANDOM STYLE (FOR AI GENERATOR)
-$styleName = Invoke-Expression -Command ($utilitiesFolder + "Get-RandomStyle.ps1");
+$styleName = Invoke-Expression -Command ($utilitiesFolder + "\Get-RandomStyle.ps1");
 
 #ADD THIS STYLE NAME TO THE PROMPT
 #$enviro = ($enviro + ", " + $styleName);
@@ -252,7 +269,7 @@ $model = "openai/dall-e-3";
 $resolution = "1024x1024";
 
 #GET THE IMAGE DATA
-$imageData = Invoke-Expression -Command ($utilitiesFolder + "Get-EdenAIImage.ps1 `"" + $enviroName + "`" " + $provider + " " + $model + " " + $resolution);
+$imageData = Invoke-Expression -Command ($utilitiesFolder + "\Get-EdenAIImage.ps1 `"" + $enviroName + "`" " + $provider + " " + $model + " " + $resolution);
 
 #CHECK THAT THE IMAGE GENERATION SUCCEEDED!
 if($null -eq $imageData.image){
@@ -325,15 +342,8 @@ $output = $output.Replace("\u0026", "&");
 
 Write-Output $output;
 
-#DEBUGGING
-#pause;
-#exit 1;
-
 #SAVE TO FILE (lastCardOutput.json)
-$output | Set-Content -Path "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\lastCardOutput.json" -Encoding 'UTF8';
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
 #SEND TO TEAMS
-$response = Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""";# > $silent;
-
-Write-Host $response.Content;
-Write-Host $response.RawContent;
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;

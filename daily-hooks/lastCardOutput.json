@@ -14,7 +14,7 @@
                                             "body":  [
                                                          {
                                                              "type":  "TextBlock",
-                                                             "text":  "DnD AI",
+                                                             "text":  "Daily Gnome",
                                                              "color":  "default",
                                                              "fontType":  "default",
                                                              "horizontalAlignment":  "center",
@@ -28,7 +28,7 @@
                                                          },
                                                          {
                                                              "type":  "TextBlock",
-                                                             "text":  "A Ranger Human called Oumcherdifeldix whose background is Hermit and knows the language Undercommon and is fighting a medium-sized Lawful evil Lemure",
+                                                             "text":  "Make me an image of a happy, dummy thicc gnome from behind wearing a pointy red hat. the image is from behind but he is smiling at the camera. the gnome is covered from head to toe in water and flour. create in animated ghibli style [by openai/dall-e-3]",
                                                              "color":  "default",
                                                              "fontType":  "default",
                                                              "horizontalAlignment":  "center",
@@ -45,8 +45,8 @@
                                                              "items":  [
                                                                            {
                                                                                "type":  "Image",
-                                                                               "url":  "https://d14uq1pz7dzsdq.cloudfront.net/90c55a30-08fb-4244-8bfe-8413575da33d_.png?Expires=1743158662&Signature=h4jned9leIymozEfyD5OKqKrIewboKYZkju1KgPVxqsN91GTnEovIzMoYkO3MvprJyn50hzNi1w2ScotxKR44RsZJeG3kNuiJfviOyqyZpFXamuqGw8nvTHsyuxP6k7D0yXULmzgEz9vk6y2GAP4RiTzcPbj-1ErNl93GL9frDmWKFQCsM8VIVe-AbPwG5Cgmj-kLn8~-8ifnIMFlE-RzD6sTXQ9sq2dYq29jo4bwhIDJT6YtXoQwoxlloDhLOP0MACcG~YOf9wcs8k7J7RZ2NaKvCJ5PmbjLTgXjCvbL3P36y~PPku41AN2kPDSaXQEAt~4xHHZWfESvjDNzwNXcA__&Key-Pair-Id=K1F55BTI9AHGIK",
-                                                                               "altText":  "A RANGER HUMAN CALLED OUMCHERDIFELDIX WHOSE BACKGROUND IS HERMIT AND KNOWS THE LANGUAGE UNDERCOMMON AND IS FIGHTING A MEDIUM-SIZED LAWFUL EVIL LEMURE",
+                                                                               "url":  "https://d14uq1pz7dzsdq.cloudfront.net/ad1ad6cb-f8f4-4941-8b8f-45f6a24ca612_.png?Expires=1746101032&Signature=rwoo7uadxMp2-Tfx9nGgbOtna2hSZ6nBU9f5W-9iYPykvvIDbhpS0~SLy8Z3S49nxJ28zbzfhVG35bg9X-lh8iSuuE6XSwjK6KSotuzEt1ZNVT13vQ0VVGgPUSjZRgFNf93ODI49pygh1RGpDmeKCMQp9NU8WXgAtMqFjVZyJ8oQoNRQ5rXbUpSQntLkGQraqIXb6~UesNRZuVmkHItyFK~s3Rhn-xNuCEhgldrW~9QCjsKgRtpJuQ0TvraE-PD~A2aiQHJ9wZOkbbuYm7y6p2n39pU1Z2uW3CvHE9hsSizi-HynDOFwpoOtszfg2vsL8nbAyV14YLwox9b2uARNuw__&Key-Pair-Id=K1F55BTI9AHGIK",
+                                                                               "altText":  "MAKE ME AN IMAGE OF A HAPPY, DUMMY THICC GNOME FROM BEHIND WEARING A POINTY RED HAT. THE IMAGE IS FROM BEHIND BUT HE IS SMILING AT THE CAMERA. THE GNOME IS COVERED FROM HEAD TO TOE IN WATER AND FLOUR. CREATE IN ANIMATED GHIBLI STYLE",
                                                                                "backgroundColor":  "#fff",
                                                                                "height":  "auto",
                                                                                "horizontalAlignment":  "center",
@@ -55,7 +55,7 @@
                                                                        ],
                                                              "selectAction":  {
                                                                                   "type":  "Action.OpenUrl",
-                                                                                  "url":  "https://d14uq1pz7dzsdq.cloudfront.net/90c55a30-08fb-4244-8bfe-8413575da33d_.png?Expires=1743158662&Signature=h4jned9leIymozEfyD5OKqKrIewboKYZkju1KgPVxqsN91GTnEovIzMoYkO3MvprJyn50hzNi1w2ScotxKR44RsZJeG3kNuiJfviOyqyZpFXamuqGw8nvTHsyuxP6k7D0yXULmzgEz9vk6y2GAP4RiTzcPbj-1ErNl93GL9frDmWKFQCsM8VIVe-AbPwG5Cgmj-kLn8~-8ifnIMFlE-RzD6sTXQ9sq2dYq29jo4bwhIDJT6YtXoQwoxlloDhLOP0MACcG~YOf9wcs8k7J7RZ2NaKvCJ5PmbjLTgXjCvbL3P36y~PPku41AN2kPDSaXQEAt~4xHHZWfESvjDNzwNXcA__&Key-Pair-Id=K1F55BTI9AHGIK",
+                                                                                  "url":  "https://d14uq1pz7dzsdq.cloudfront.net/ad1ad6cb-f8f4-4941-8b8f-45f6a24ca612_.png?Expires=1746101032&Signature=rwoo7uadxMp2-Tfx9nGgbOtna2hSZ6nBU9f5W-9iYPykvvIDbhpS0~SLy8Z3S49nxJ28zbzfhVG35bg9X-lh8iSuuE6XSwjK6KSotuzEt1ZNVT13vQ0VVGgPUSjZRgFNf93ODI49pygh1RGpDmeKCMQp9NU8WXgAtMqFjVZyJ8oQoNRQ5rXbUpSQntLkGQraqIXb6~UesNRZuVmkHItyFK~s3Rhn-xNuCEhgldrW~9QCjsKgRtpJuQ0TvraE-PD~A2aiQHJ9wZOkbbuYm7y6p2n39pU1Z2uW3CvHE9hsSizi-HynDOFwpoOtszfg2vsL8nbAyV14YLwox9b2uARNuw__&Key-Pair-Id=K1F55BTI9AHGIK",
                                                                                   "title":  "View this image on EdenAI",
                                                                                   "iconUrl":  null
                                                                               }

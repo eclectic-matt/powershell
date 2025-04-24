@@ -16,7 +16,7 @@
 #Install-Module -Name PowerHTML
 
 #IMPORT THE CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
+#. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
 
 #BASE URLS
 $topStoriesUrl = "https://hacker-news.firebaseio.com/v0/topstories.json"; 
@@ -99,9 +99,6 @@ for($i = 0; $i -lt 10; $i++){
 }
 
 
-#exit;
-
-
 #THE ENTIRE CONTENT IS ONE COLUMN/CONTAINER
 $content = @(
 	$headerText.out(), 
@@ -121,13 +118,8 @@ $fullContainer.setItems($content);
 #STRINGIFY THE FINAL MESSAGE - THIS *MUST* USE THE out() METHOD
 $output = $message.out();
 
-#SAVE TO FILE (lastCardOutput.json)
-$output > "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\TeamsCards\lastCardOutput.json";
-
-#OUTPUT TO SCREEN FOR CHECKING
-Write-Output $output;
-#pause;
-#exit 1;
+#SAVE OUTPUT TO FILE
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
 #SEND TO TEAMS
-Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;

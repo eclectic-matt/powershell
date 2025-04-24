@@ -12,18 +12,12 @@
 	https://developers.google.com/youtube/v3/docs/search/list?apix=true&apix_params=%7B%22part%22%3A%5B%22id%22%2C%22snippet%22%5D%2C%22channelId%22%3A%22UCUM6KH8_sU6hkA8byqfkyUA%22%7D
 #>
 
-#IMPORT THE CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
-
-#CLEAR THE SCREEN BETWEEN RUNS?
-#Cls;
-
 <#
     YOUTUBE DAILY NIGEL AND MARMALADE
 #>
 
 #GET API KEY FROM SECRET STORE
-$keyFileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\api\apiKeys.json";
+$keyFileName = "$apiKeysFolder\apiKeys.json";
 $keyFile = Get-Content -Path $keyFileName -Raw;
 $keysJSON = ConvertFrom-Json $keyFile;
 $apiKey = $keysJSON.keys.youtubeApi;
@@ -57,7 +51,7 @@ $itemCount = $items.length;
 #GET THE RECENT UPDATES 
 # TO PREVENT DUPLICATION
 #===========================
-$recentName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\daily-hooks\data\recentNigelAndMarmalade.json";
+$recentName = "$hooksFolder\data\recentNigelAndMarmalade.json";
 $recentFile = Get-Content -Path $recentName -Raw;
 $recentJSON = ConvertFrom-Json $recentFile;
 $recentArray = $recentJSON.recent;
@@ -153,16 +147,10 @@ $fullContainer.setSelectAction($action.out());
 $output = $message.out();
 
 #SAVE TO FILE (lastCardOutput.json)
-$output > "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\TeamsCards\lastCardOutput.json";
-
-#OUTPUT TO SCREEN FOR CHECKING
-Write-Output $output;
-#pause;
-
-#DEBUG - PREVENT TEAMS SEND
-#exit 1;
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
 #SEND TO TEAMS (General)
-Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+
 #SEND TO TEAMS (Drinks Orders)
 #Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true"" ""Drinks Orders""" > $silent;

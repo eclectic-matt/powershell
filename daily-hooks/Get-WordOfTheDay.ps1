@@ -13,10 +13,27 @@
 #>
 
 #IMPORT THE CLASSES
-. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
+#. C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\AdaptiveCards\Classes\Imports.ps1
+
+<#
+#GET THE INVOCATION PATH 
+$splitPath = Split-Path $MyInvocation.MyCommand.Path;
+#GET THE DIRECTORY FOR THIS FILE
+$hooksFolder = Join-Path -Path $splitPath -ChildPath "";
+#GET THE ROOT (POWERSHELL) FOLDER
+$rootFolderPath = Split-Path -Path $splitPath -Parent -Resolve;
+#THEN GET THE CHILD utilities DIRECTORY
+$utilitiesFolder = Join-Path -Path $rootFolderPath -ChildPath "utilities";
+#Write-Host ("UTILITIES PATH: " + $utilitiesFolder);
+#IMPORT THE ADAPTIVE CARDS CLASSES
+. "$utilitiesFolder\AdaptiveCards\Classes\Imports.ps1"
+#>
+
+#GET THE API FOLDER IN THE ROOT DIR
+#$apiKeysFolder = Join-Path -Path $rootFolderPath -ChildPath "api";
 
 #GET API KEY FROM SECRET STORE
-$keyFileName = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\api\apiKeys.json";
+$keyFileName = "$apiKeysFolder\apiKeys.json";
 $keyFile = Get-Content -Path $keyFileName -Raw;
 $keysJSON = ConvertFrom-Json $keyFile;
 $apiKey = $keysJSON.keys.wordnik;
@@ -248,13 +265,8 @@ $fullContainer.setItems($content);
 #STRINGIFY THE FINAL MESSAGE - THIS *MUST* USE THE out() METHOD
 $output = $message.out();
 
-#OUTPUT TO SCREEN FOR CHECKING
-#Write-Output $output;
-#pause;
-#exit 1;
-
 #SAVE TO FILE (lastCardOutput.json)
-$output > "C:\Users\matthew.tiernan\Desktop\POWERSHELL\test\TeamsCards\lastCardOutput.json";
+$output | Set-Content -Path "$hooksFolder\lastCardOutput.json" -Encoding 'UTF8';
 
 #SEND TO TEAMS
-Invoke-Expression -Command "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
+Invoke-Expression -Command "$utilitiesFolder\Send-TeamsMessage.ps1 `$output` ""true""" > $silent;
