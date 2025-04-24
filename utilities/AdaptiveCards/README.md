@@ -18,7 +18,7 @@ The structure of an AdaptiveCard is as follows:
 These are implemented through a series of Powershell functions:
 
 * TOP-LEVEL WRAPPERS
-	* AdaptiveCard (TO DO)
+	* AdaptiveCard
 	* Message
 
 * CONTAINER ELEMENTS
@@ -29,8 +29,9 @@ These are implemented through a series of Powershell functions:
 	* FactSet
 	* Fact
 	* ImageSet (TO DO)
-	* Table (TO DO)
-	* TableCell (TO DO)
+	* Table
+	* TableCell
+	* TableRow
 
 * CARD ELEMENTS
 	* TextBlock
@@ -42,7 +43,7 @@ These are implemented through a series of Powershell functions:
 	* TextRun (TO DO)
 
 * ACTIONS
-	* Action.OpenUrl (TO DO)
+	* Action.OpenUrl
 	* Action.Submit (TO DO)
 	* Action.ShowCard (TO DO)
 	* Action.ToggleVisibility (TO DO)
