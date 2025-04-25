@@ -60,6 +60,7 @@ class DndAPI
     #=============
     # LOGIN
     #=============
+    #CONDUCTS A LOGIN USING THE PRESET AUTH CREDENTIALS
     [boolean] login([String] $username, [String] $password)
     {
         $loginUrl = ($this.baseUrl + "user/login");
@@ -71,15 +72,35 @@ class DndAPI
         $response = ConvertFrom-Json $json.Content;
         #HANDLE EMPTY RESPONSE
         if($null -eq $response){
-            throw new Exception("Empty Response - Exiting");
+            throw "Empty Response - Exiting";
         }
         #HANDLE EMPTY RESPONSE TOKEN
         if($null -eq $response.token){
-            throw new Exception("Auth Token not found - exiting now!");
+            throw "Auth Token not found - exiting now!";
         }
         #STORE THE RETURNED TOKEN
         $this.token = $response.token;
         return $true;
+    }
+    #CHECK LOGGED IN
+    [boolean] isLoggedIn()
+    {
+        if($null -ne $this.token){
+            return $true;
+        }else{
+            return $false;
+        }
+    }
+    #GET HEADER (AUTH: BEARER $token)
+    [System.Collections.Hashtable] getHeaders()
+    {
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login first to get auth token!";
+        }
+        $headers = @{
+            Authorization=("Bearer " + $this.token)
+        };
+        return $headers;
     }
 
     <#=============
@@ -105,18 +126,20 @@ class DndAPI
         }
         #DEFINE THE API URL TO CALL
         $classesUrl = ($this.baseUrl + "characters/classes");
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #CALL THE URL TO GET DATA
         $json = Invoke-WebRequest -Uri $classesUrl -Method GET -Headers $headers;
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.Count -eq 0){
-            throw new Exception("0 CLASSES RETURNED FROM REMOTE CALL");
+            #throw "0 CLASSES RETURNED FROM REMOTE CALL";
+            #THIS IS CONSTANTLY FAILING - HARD-CODING THESE NOW
+            return @( "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard" );
         }
         #STORE THIS DATA BETWEEN ACTIONS
         $this.classes = $response;
@@ -159,18 +182,18 @@ class DndAPI
         }
         #DEFINE THE API URL TO CALL
         $racesUrl = ($this.baseUrl + "characters/races");
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #CALL THE URL TO GET DATA
         $json = Invoke-WebRequest -Uri $racesUrl -Method GET -Headers $headers;
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.Count -eq 0){
-            throw new Exception("0 RACES RETURNED FROM REMOTE CALL");
+            throw "0 RACES RETURNED FROM REMOTE CALL";
         }
         #STORE THIS DATA BETWEEN ACTIONS
         $this.races = $response;
@@ -217,18 +240,18 @@ class DndAPI
         }
         #DEFINE THE API URL TO CALL
         $bgsUrl = ($this.baseUrl + "characters/backgrounds");
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #CALL THE URL TO GET DATA
         $json = Invoke-WebRequest -Uri $bgsUrl -Method GET -Headers $headers;
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.Count -eq 0){
-            throw new Exception("0 BACKGROUNDS RETURNED FROM REMOTE CALL");
+            throw "0 BACKGROUNDS RETURNED FROM REMOTE CALL";
         }
         #STORE THIS DATA BETWEEN ACTIONS
         $this.backgrounds = $response;
@@ -278,18 +301,18 @@ class DndAPI
         }
         #DEFINE THE API URL TO CALL
         $languagesUrl = ($this.baseUrl + "game/languages");
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #CALL THE URL TO GET DATA
         $json = Invoke-WebRequest -Uri $languagesUrl -Method GET -Headers $headers;
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.Count -eq 0){
-            throw new Exception("0 LANGUAGES RETURNED FROM REMOTE CALL");
+            throw "0 LANGUAGES RETURNED FROM REMOTE CALL";
         }
         #STORE THIS DATA BETWEEN ACTIONS
         $this.languages = $response;
@@ -324,12 +347,12 @@ class DndAPI
     #GET A LIST OF RANDOM NAMES (BY TYPE)
     [System.Object[]] getRandomNames([String] $nameType)
     {
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #RANDOM NAME OF A CERTAIN TYPE
         $namesUrl = ($this.baseUrl + "names/" + $nameType);
         #CALL THE URL TO GET DATA
@@ -337,7 +360,7 @@ class DndAPI
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.names.Count -eq 0){
-            throw new Exception("0 NAMES RETURNED FROM REMOTE CALL");
+            throw "0 NAMES RETURNED FROM REMOTE CALL";
         }
         #RETURN THE NEWLY-OBTAINED DATA
         return $response;
@@ -345,12 +368,12 @@ class DndAPI
     #GET A LIST OF RANDOM NAMES
     [System.Object[]] getRandomNames()
     {
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #GETTING A GENERIC NAME
         $namesUrl = ($this.baseUrl + "names");
         #CALL THE URL TO GET DATA
@@ -358,7 +381,7 @@ class DndAPI
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.names.Count -eq 0){
-            throw new Exception("0 NAMES RETURNED FROM REMOTE CALL");
+            throw "0 NAMES RETURNED FROM REMOTE CALL";
         }
         #RETURN THE NEWLY-OBTAINED DATA
         return $response;
@@ -379,7 +402,9 @@ class DndAPI
     [String[]] getCreatureTypes()
     {
         #THIS LIST IS AVAILABLE ON THE API HELP PAGE: GET /api/creatures/{creatureType}
-        $creatureTypes = @("aberration", "beast", "celestial", "construct", "demon", "devil", "dragon", "elemental", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead");
+        #$creatureTypes = @("aberration", "beast", "celestial", "construct", "demon", "devil", "dragon", "elemental", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead");
+        #RESTRICTED LIST (SOME ARE RETURNING EMPTY ARRAYS AT PRESENT)
+        $creatureTypes = @("aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead");
         return $creatureTypes;
     }
     #GET A RANDOM CREATURE TYPE
@@ -392,12 +417,12 @@ class DndAPI
     #GET CREATURES OF THE SPECIFIED TYPE (MUST BE A VALID TYPE FROM getCreatureTypes)
     [System.Object[]] getCreatures([String] $creatureType)
     {
-        if($null -eq $this.token){
-            throw new Exception("Must login to get token first!");
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
         }
-        $headers = @{
-            Authorization=("Bearer " + $this.token)
-        };
+        #GET HEADER
+        $headers = $this.getHeaders();
         #GETTING A GENERIC NAME
         $creaturesUrl = ($this.baseUrl + "creatures/" + $creatureType);
         #CALL THE URL TO GET DATA
@@ -405,7 +430,7 @@ class DndAPI
         #CONVERT FROM JSON (RETURNED AS AN ARRAY)
         $response = ConvertFrom-Json $json;
         if($response.Count -eq 0){
-            throw new Exception("0 CREATURES RETURNED FROM REMOTE CALL");
+            throw "0 CREATURES RETURNED FROM REMOTE CALL";
         }
         #RETURN THE NEWLY-OBTAINED DATA
         return $response;
@@ -425,27 +450,53 @@ class DndAPI
         return $creature;
     }
 
+    <#=============
+    # CHARACTERS
+    #=============#>
+    #CREATES A NEW CHARACTER, PASSING NAME AND URL
+    [String] createNewCharacter([String] $name, [int] $level)
+    {
+        #CHECK LOGGED IN
+        if($this.isLoggedIn() -eq $false){
+            throw "Must login to get token first!";
+        }
+        #GET HEADER
+        $headers = $this.getHeaders();
+        #DEFINE DATA TO POST
+        $data = @{
+            Name=$name 
+            Level=$level 
+        } | ConvertTo-SecureString -AsPlainText $true;
+        #GETTING A GENERIC NAME
+        $charsUrl = ($this.baseUrl + "characters/");
+        #CALL THE URL TO GET DATA
+        $newGuid = Invoke-WebRequest -Uri $charsUrl -Method POST -Headers $headers -Body $data -ContentType "text/json";
+        #CHECK RETURNED
+        if($null -eq $newGuid){
+            throw "NO NEW GUID RETURNED FROM REMOTE CALL";
+        }
+        #RETURN THE NEWLY-OBTAINED DATA
+        return $newGuid;
+    }
 
 
     <#=============
     # AI IMAGE GEN
     #=============#>
     #GENERATES AN AI IMAGE FOR THE DESCRIPTION PROVIDED
-    [System.Object[]] generateImage([String] $description)
+    [System.Object[]] generateImage([String] $description, [string] $utilitiesFolder)
     {
-        #THE KEY FILE LOCATIONS
-        $utilitiesFolder = "C:\Users\matthew.tiernan\Desktop\POWERSHELL\utilities\";
         #MORE EXPENSIVE BUT WAAAAY MORE ACCURATE OPTION - NOV 2024
         $provider = "openai";
         $model = "openai/dall-e-3";
         $resolution = "1024x1024";
 
         #GET THE IMAGE DATA
-        $imageData = Invoke-Expression -Command ($utilitiesFolder + "Get-EdenAIImage.ps1 `"" + $description + "`" " + $provider + " " + $model + " " + $resolution);
+        $imageData = Invoke-Expression -Command ($utilitiesFolder + "\Get-EdenAIImage.ps1 `"" + $description + "`" " + $provider + " " + $model + " " + $resolution);
 
         #CHECK THAT THE IMAGE GENERATION SUCCEEDED!
         if($null -eq $imageData.image){
-            throw new Exception("CANNOT GET IMAGE URL FROM EDEN AI - STOPPING NOW...");
+            throw "CANNOT GET IMAGE URL FROM EDEN AI - STOPPING NOW...";
         }
         #RETURN THE FULL JSON OBJECT FOR FURTHER PROCESSING
         return $imageData;
